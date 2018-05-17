@@ -1,4 +1,5 @@
 var shiftDown = false;
+
 // Warsaw
 var lat = 52.23;
 var lon = 21.01;

@@ -8,11 +8,10 @@ $(function() {
 
     var unit = 'metric';
     var lastData = {};
-    // var weatherApiKey = 'd2ae6d25c09549f38d8feed1d116c580';
     var weatherApiKey = '0c2b325ac31651d9520da07547dfc3aa';
     var weatherApi = 'https://api.openweathermap.org/data/2.5/weather?callback=?';
     var startPos;
-    // seattle
+    // Warsaw
     var lat = 52.23;
     var lon = 21.01;
     var geoOptions = {
@@ -31,12 +30,10 @@ $(function() {
         console.log(lastData.name);
         console.log(lastData.id);
 
-
         var cityid = lastData.id;
         $("#weatherlink").attr('href', function(index, attr) {
             return ("https://openweathermap.org/city/") + cityid;
         });
-
 
         $(".icon").addClass('hidden');
         var weatherCode = parseInt(lastData.weather[0].id, 10);
@@ -125,35 +122,6 @@ $(function() {
         $.getJSON(weatherApi, weatherData, printResults);
     };
 
-    var geoSuccess = function(position) {
-        startPos = position;
-        lat = startPos.coords.latitude;
-        lon = startPos.coords.longitude;
-        getWeather(lat, lon);
-    };
-
-    var geoError = function(error) {
-        console.log('Error occurred. Error code: ' + error.code);
-        // error.code can be:
-        //   0: unknown error
-        //   1: permission denied
-        //   2: position unavailable (error response from location provider)
-        //   3: timed out
-
-        // ignore it and use the default lat and lon
-
-        getWeather(lat, lon);
-    };
-
-    var searchByLocation = function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
-        } else {
-            getWeather(lat, lon);
-        }
-    };
-
-
     var resetCity = function() {
         $city.text(lastData.name).blur();
     };
@@ -179,12 +147,12 @@ $(function() {
 
     $("#unit").click(changeUnit);
     $("#temp").click(changeUnit);
-    searchByLocation();
+    getWeather(lat, lon);
 
     // How frequent API call is made for weather update//
-    //Max is 60 calls per 1 minute. Default is 300 seconds (1 call per 5 minutes), or 30000(ms) //
+    // Max is 60 calls per 1 minute. Default is 300 seconds (1 call per 5 minutes), or 30000(ms) //
 
-    var t = window.setInterval(searchByLocation, 300000);
+    var t = window.setInterval(getWeather, 300000);
 
     function refreshDiv() {
         $.ajaxSetup({
