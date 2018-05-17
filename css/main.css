@@ -1,7 +1,7 @@
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
 /* Reset
-**************************************************************************/
+ **************************************************************************/
 
 * {
     box-sizing: border-box;
@@ -183,7 +183,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Flexbox
-**************************************************************************/
+ **************************************************************************/
 
 .flexbox {
     position: absolute;
@@ -496,6 +496,15 @@ th {
     padding: 0 0 0 0;
     cursor: default;
 }
+
+.timeArea .suncalc {
+    font-size: 1.0em;
+    font-weight: 100;
+    margin-top: 0px;
+    padding: 0 0 0 0;
+    cursor: default;
+}
+
 
 .timeArea .date {
     display: block;
@@ -985,14 +994,14 @@ i {
 
 /*
 .pace {
-    -webkit-pointer-events: none;
-    pointer-events: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none; 
+-webkit-pointer-events: none;
+pointer-events: none;
+-webkit-user-select: none;
+-moz-user-select: none;
+user-select: none; 
 } 
 
-*/
+ */
 
 .pace-inactive {
     display: none;

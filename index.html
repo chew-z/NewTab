@@ -3,10 +3,10 @@
 <html lang="en">
 
     <!--
-                  Created by:
-          https://github.com/chew-z
-          based on https://github.com/seanvree/homepage
-          last updated: 17 MAY 2018
+        Created by:
+        https://github.com/chew-z
+        based on https://github.com/seanvree/homepage
+        last updated: 17 MAY 2018
 
     -->
 
@@ -21,20 +21,15 @@
 
         <title>Search</title>
         <meta name="Search" content="Search">
-
         <link rel="manifest" href="webmanifest.json">
         <link rel="apple-touch-icon" href="favicon.png">
         <link rel="icon" type="image/png" href="favicon.png">
-
         <link rel="stylesheet" href="css/bootstrap.min.css">
-
         <link rel="stylesheet" href="css/main.css">
-
         <!-- script src="js/vendor/jquery-3.3.1.min.js"></script -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+        <script src="js/suncalc.js" async></script>
         <script src="js/weather.js" async></script>
-
         <script src="js/pace.js" async></script>
 
         <!-- <meta http-equiv="refresh" content="180"> -->
@@ -44,8 +39,11 @@
     <body style="background-color: #000000">
         <div class="timeArea">
             <p class="time">
-                <span id="hours"></span><span id="colon">:</span><span id="minutes"></span>
-                <span class="date"></span>
+            <span id="hours"></span><span id="colon">:</span><span id="minutes"></span>
+            <span class="date"></span>
+            </p>
+            <p class="suncalc">
+            Sunrise: <span id="sunrise"></span> Sunset: <span id="sunset"></span>
             </p>
         </div>
 

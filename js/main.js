@@ -1,4 +1,7 @@
 var shiftDown = false;
+// Warsaw
+var lat = 52.23;
+var lon = 21.01;
 
 function setDate($) {
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -12,6 +15,13 @@ function setDate($) {
         $('.timeArea .time .timeInner').html(currentTime);
         $('.timeArea .time .date').html(currentDate);
     }
+    let times = SunCalc.getTimes(new Date(), lat, lon);
+    // format sunrise time from the Date object
+    let sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
+    let sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
+    console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
+    $('#sunrise').text(sunriseStr);
+    $('#sunset').text(sunsetStr);
 
     var toggle = true;
     setInterval(function() {
@@ -60,13 +70,15 @@ function search(query, engine) {
 
 $(function() {
     setDate($);
-
-    var currentTime = new Date().getHours();
-    if (8 <= currentTime && currentTime < 20) {
+    let currentTime = new Date();
+    // get today's sunlight times for location
+    let times = SunCalc.getTimes(new Date(), lat, lon);
+    if (times.sunrise <= currentTime && currentTime < times.sunset) {
         if (document.body) {
             document.body.background = "css/background_day.jpg";
             document.body.className = " day";
         }
+
     } else {
         if (document.body) {
             document.body.background = "css/background_night.jpg";
@@ -74,12 +86,11 @@ $(function() {
         }
     }
 
-
     document.body.className += ' fade-out';
     $(function () {
         $('body').removeClass('fade-out');
     });
-    // document.body.background = "css/background_day.jpg";
+
     $(window).keydown(function(e) {
         if (e.keyCode == 72) {
             $('.hideable').toggleClass('hide');
