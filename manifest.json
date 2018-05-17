@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+
+    "name": "NewTab",
+    "description": "Replace default new tab page in Chrome with a custom homepage.",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "favicon.png",
+        "default_title": "NewTab"
+    },
+    "chrome_url_overrides" : {
+        "newtab": "index.html"
+    },
+    "permissions": [
+        "geolocation",
+        "https://cdnjs.cloudflare.com/",
+        "https://api.openweathermap.org/"
+    ],
+    "content_security_policy": "script-src 'self' https://api.openweathermap.org https://cdnjs.cloudflare.com;object-src 'self'"
+}
