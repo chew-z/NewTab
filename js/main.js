@@ -4,6 +4,33 @@ var shiftDown = false;
 var lat = 52.23;
 var lon = 21.01;
 
+const phases = [
+  { emoji: '🌚', code: ':new_moon_with_face:', name: 'New Moon', weight: 1 },
+  { emoji: '🌒', code: ':waxing_crescent_moon:', name: 'Waxing Crescent', weight: 6.3825 },
+  { emoji: '🌓', code: ':first_quarter_moon:', name: 'First Quarter', weight: 1 },
+  { emoji: '🌔', code: ':waxing_gibbous_moon:', name: 'Waxing Gibbous', weight: 6.3825 },
+  { emoji: '🌝', code: ':full_moon_with_face:', name: 'Full Moon', weight: 1 },
+  { emoji: '🌖', code: ':waning_gibbous_moon:', name: 'Waning Gibbous', weight: 6.3825 },
+  { emoji: '🌗', code: ':last_quarter_moon:', name: 'Last Quarter', weight: 1 },
+  { emoji: '🌘', code: ':waning_crescent_moon:', name: 'Waning Crescent', weight: 6.3825 }
+]
+
+const step = function (phase) {
+  const weight = phases.reduce(function (a, b) {
+    return a + b.weight
+  }, 0)
+
+  phase *= weight
+  for (var rv = 0; rv < phases.length; rv++) {
+    phase -= phases[rv].weight
+    if (phase <= 0) {
+      break
+    }
+  }
+
+  return rv
+}
+
 function setDate($) {
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'August', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -23,6 +50,8 @@ function setDate($) {
     console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
     $('#sunrise').text(sunriseStr);
     $('#sunset').text(sunsetStr);
+    let moonphase = SunCalc.getMoonIllumination(new Date()).phase;
+    $('#moonphase').text(phases[step(moonphase)].emoji);
 
     var toggle = true;
     setInterval(function() {
@@ -32,7 +61,7 @@ function setDate($) {
         $('#minutes').text(parts[1]);
         $("#colon").css({ visibility: toggle?"visible":"hidden"});
         toggle=!toggle;
-    },1000);
+    },1000)
 }
 
 function search(query, engine) {
@@ -41,6 +70,9 @@ function search(query, engine) {
         case 'google':
         default:
             var url = 'https://google.com/search?q=' + query;
+            break;
+        case 'bookmarks':
+            var url = 'chrome://bookmarks/?q=' + query;
             break;
         case 'youtube':
             var url = 'https://www.youtube.com/results?search_query=' + query;
@@ -59,6 +91,9 @@ function search(query, engine) {
             break;
         case 'imdb':
             var url = 'https://www.imdb.com/find?q=' + query + '&s=tt';
+            break;
+        case 'instapaper':
+            var url = 'https://www.instapaper.com/search?q=' + query;
             break;
     }
 

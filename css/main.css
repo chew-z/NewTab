@@ -497,7 +497,7 @@ th {
     cursor: default;
 }
 
-.timeArea .suncalc {
+.timeArea .suncalc-sun{
     font-size: 1.0em;
     font-weight: 100;
     margin-top: 0px;
@@ -505,6 +505,13 @@ th {
     cursor: default;
 }
 
+.timeArea .suncalc-moon{
+    font-size: 1.5em;
+    font-weight: 100;
+    margin-top: 0px;
+    padding: 0 0 0 0;
+    cursor: default;
+}
 
 .timeArea .date {
     display: block;
