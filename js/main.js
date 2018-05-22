@@ -5,30 +5,30 @@ var lat = 52.23;
 var lon = 21.01;
 
 const phases = [
-  { emoji: '🌚', code: ':new_moon_with_face:', name: 'New Moon', weight: 1 },
-  { emoji: '🌒', code: ':waxing_crescent_moon:', name: 'Waxing Crescent', weight: 6.3825 },
-  { emoji: '🌓', code: ':first_quarter_moon:', name: 'First Quarter', weight: 1 },
-  { emoji: '🌔', code: ':waxing_gibbous_moon:', name: 'Waxing Gibbous', weight: 6.3825 },
-  { emoji: '🌝', code: ':full_moon_with_face:', name: 'Full Moon', weight: 1 },
-  { emoji: '🌖', code: ':waning_gibbous_moon:', name: 'Waning Gibbous', weight: 6.3825 },
-  { emoji: '🌗', code: ':last_quarter_moon:', name: 'Last Quarter', weight: 1 },
-  { emoji: '🌘', code: ':waning_crescent_moon:', name: 'Waning Crescent', weight: 6.3825 }
+    { emoji: '🌚', code: ':new_moon_with_face:', name: 'New Moon', weight: 1 },
+    { emoji: '🌒', code: ':waxing_crescent_moon:', name: 'Waxing Crescent', weight: 6.3825 },
+    { emoji: '🌓', code: ':first_quarter_moon:', name: 'First Quarter', weight: 1 },
+    { emoji: '🌔', code: ':waxing_gibbous_moon:', name: 'Waxing Gibbous', weight: 6.3825 },
+    { emoji: '🌝', code: ':full_moon_with_face:', name: 'Full Moon', weight: 1 },
+    { emoji: '🌖', code: ':waning_gibbous_moon:', name: 'Waning Gibbous', weight: 6.3825 },
+    { emoji: '🌗', code: ':last_quarter_moon:', name: 'Last Quarter', weight: 1 },
+    { emoji: '🌘', code: ':waning_crescent_moon:', name: 'Waning Crescent', weight: 6.3825 }
 ]
 
 const step = function (phase) {
-  const weight = phases.reduce(function (a, b) {
-    return a + b.weight
-  }, 0)
+    const weight = phases.reduce(function (a, b) {
+        return a + b.weight
+    }, 0)
 
-  phase *= weight
-  for (var rv = 0; rv < phases.length; rv++) {
-    phase -= phases[rv].weight
-    if (phase <= 0) {
-      break
+    phase *= weight
+    for (var rv = 0; rv < phases.length; rv++) {
+        phase -= phases[rv].weight
+        if (phase <= 0) {
+            break
+        }
     }
-  }
 
-  return rv
+    return rv
 }
 
 function setDate($) {
@@ -47,7 +47,7 @@ function setDate($) {
     // format sunrise time from the Date object
     let sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
     let sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
-    console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
+    // console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
     $('#sunrise').text(sunriseStr);
     $('#sunset').text(sunsetStr);
     let moonphase = SunCalc.getMoonIllumination(new Date()).phase;
@@ -73,6 +73,12 @@ function search(query, engine) {
             break;
         case 'bookmarks':
             var url = 'chrome://bookmarks/?q=' + query;
+            try {
+                chrome.runtime.sendMessage({
+                    method: 'openLocalFile',
+                    localFileUrl: url,
+                });
+            } catch (e) {} 
             break;
         case 'youtube':
             var url = 'https://www.youtube.com/results?search_query=' + query;

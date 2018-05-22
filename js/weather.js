@@ -27,8 +27,8 @@ $(function() {
         $("#icon").text(lastData.weather.icon);
         $("#temp").text(lastData.main.temp.toFixed(0));
 
-        console.log(lastData.name);
-        console.log(lastData.id);
+        // console.log(lastData.name);
+        // console.log(lastData.id);
 
         var cityid = lastData.id;
         $("#weatherlink").attr('href', function(index, attr) {
@@ -40,9 +40,9 @@ $(function() {
         var icon = lastData.weather[0].icon;
         var description = lastData.weather[0].description;
 
-        console.log(weatherCode);
-        console.log(description);
-        console.log(icon);
+        // console.log(weatherCode);
+        // console.log(description);
+        // console.log(icon);
 
         if (icon == "01d") {
             $(".sunny").removeClass('hidden');
