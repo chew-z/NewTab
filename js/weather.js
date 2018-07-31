@@ -2,43 +2,119 @@
 Weather condition API information: https://openweathermap.org/weather-conditions 
 */
 
+let background = chrome.extension.getBackgroundPage();
+let lon = 11.99;
+let lat = 43.28;
+
+function setDate($) {
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'August', 'Sep', 'Oct', 'Nov', 'Dec'],
+        d = new Date(),
+        currentDate = days[d.getDay()] + ' | ' + d.getDate() + '&nbsp;' + months[d.getMonth()],
+        mins = (d.getMinutes() > 9) ? d.getMinutes() : '0' + d.getMinutes(),
+        currentTime = d.getHours() + ':' + mins,
+        previousTime = $('.timeArea .time .timeInner').html();
+    if (currentTime != previousTime) {
+        $('.timeArea .time .timeInner').html(currentTime);
+        $('.timeArea .time .date').html(currentDate);
+    }
+    lat = background.lat;
+    lon = background.lon;
+    console.log("SunCalc coord: " + lat + "/" + lon);
+    let times = SunCalc.getTimes(new Date(), lat, lon);
+    // format sunrise time from the Date object
+    // let sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
+    let sunriseStr = times.sunrise.toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: '2-digit' });
+
+    // let sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
+    let sunsetStr = times.sunset.toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: '2-digit' });
+
+    // console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
+    $('#sunrise').text(sunriseStr);
+    $('#sunset').text(sunsetStr);
+    let moonphase = SunCalc.getMoonIllumination(new Date()).phase;
+    $('#moonphase').text(phases[step(moonphase)].emoji);
+
+    var toggle = true;
+    setInterval(function() {
+        var d = new Date().toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: '2-digit' });
+        var parts = d.split(":");
+        $('#hours').text(parts[0]);
+        $('#minutes').text(parts[1]);
+        $("#colon").css({ visibility: toggle?"visible":"hidden"});
+        toggle=!toggle;
+    },1000)
+}
+
 
 $(function() {
-    var $city = $('#city');
-
-    var unit = 'metric';
-    var lastData = {};
-    var weatherApiKey = '0c2b325ac31651d9520da07547dfc3aa';
-    var weatherApi = 'https://api.openweathermap.org/data/2.5/weather?callback=?';
-    var startPos;
     // Warsaw
-    var lat = 52.23;
-    var lon = 21.01;
-    var geoOptions = {
+    // let lat = 52.23;
+    // let lon = 21.01;
+    let weather_city = "Cortona";
+    weather_city = background.weather_city;
+    // chrome.storage.sync.get("weather_city", (obj) => {
+    // //     if(obj.hasOwnProperty("weather_city")) weather_city = obj.weather_city;
+    // });
+    let $city = $('#city');
+
+    let unit = 'metric';
+    let lastData = {};
+    let weatherApiKey = '0c2b325ac31651d9520da07547dfc3aa';
+    let weatherApi = 'https://api.openweathermap.org/data/2.5/weather?callback=?';
+    let startPos;
+    let geoOptions = {
         maximumAge: 5 * 60 * 1000,
         timeout: 10 * 1000
     };
 
-    var printResults = function(data) {
+    let printResults = function(data) {
         if (data) {
             lastData = data;
         }
         $("#city").text(lastData.name);
         $("#icon").text(lastData.weather.icon);
         $("#temp").text(lastData.main.temp.toFixed(0));
-
+        lat = lastData.coord.lat
+        lon = lastData.coord.lon
+        console.log("Coord: " + lat + "/" + lon);
+        if ( background.lat != lat && background.lon != lon ) {
+            // store in storage for future sessions
+            chrome.storage.sync.set({ "lat": lat } );
+            chrome.storage.sync.set({ "lon": lon } );
+            chrome.storage.sync.set({ "weather_city": lastData.name } );
+            // store in background for session
+            background.weather_city = lastData.name;
+            background.lat = lat;
+            background.lon = lon;
+        }
         // console.log(lastData.name);
         // console.log(lastData.id);
+        let currentTime = new Date();
+        // get today's sunlight times for location
+        let times = SunCalc.getTimes(new Date(), lat, lon);
+        if (times.sunrise <= currentTime && currentTime < times.sunset) {
+            if (document.body) {
+                document.body.background = "/img/background_day.jpg";
+                document.body.className = " day";
+            }
 
-        var cityid = lastData.id;
+        } else {
+            if (document.body) {
+                document.body.background = "/img/background_night.jpg";
+                document.body.className = " night";
+            }
+        }
+        setDate($);
+        let cityid = lastData.id;
         $("#weatherlink").attr('href', function(index, attr) {
             return ("https://openweathermap.org/city/") + cityid;
         });
 
         $(".icon").addClass('hidden');
-        var weatherCode = parseInt(lastData.weather[0].id, 10);
-        var icon = lastData.weather[0].icon;
-        var description = lastData.weather[0].description;
+        let weatherCode = parseInt(lastData.weather[0].id, 10);
+        let icon = lastData.weather[0].icon;
+        let description = lastData.weather[0].description;
 
         // console.log(weatherCode);
         // console.log(description);
@@ -106,10 +182,10 @@ $(function() {
         }
     };
 
-    var getWeather = function(lat, lon, q) {
-        var city = $city.text();
+    let getWeather = function(lat, lon, q) {
+        let city = $city.text();
         $city.text(city + ' (Loading...)');
-        var weatherData = {
+        let weatherData = {
             appid: weatherApiKey,
             units: unit
         };
@@ -122,15 +198,15 @@ $(function() {
         $.getJSON(weatherApi, weatherData, printResults);
     };
 
-    var resetCity = function() {
+    let resetCity = function() {
         $city.text(lastData.name).blur();
     };
 
-    var changeUnit = function() {
-        var $temp = $("#temp");
-        var $unit = $('#unit');
-        var currentTemp = parseFloat($temp.text());
-        var newTemp = 0;
+    let changeUnit = function() {
+        let $temp = $("#temp");
+        let $unit = $('#unit');
+        let currentTemp = parseFloat($temp.text());
+        let newTemp = 0;
         //°C  x  9/5 + 32 = °F
         // (°F  -  32)  x  5/9 = °C
         if (unit === 'imperial') {
@@ -147,12 +223,12 @@ $(function() {
 
     $("#unit").click(changeUnit);
     $("#temp").click(changeUnit);
-    getWeather(lat, lon);
+    getWeather(lat, lon, weather_city);
 
     // How frequent API call is made for weather update//
     // Max is 60 calls per 1 minute. Default is 300 seconds (1 call per 5 minutes), or 30000(ms) //
 
-    var t = window.setInterval(getWeather, 300000);
+    let t = window.setInterval(getWeather, 300000);
 
     function refreshDiv() {
         $.ajaxSetup({

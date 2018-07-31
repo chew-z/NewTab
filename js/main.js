@@ -1,8 +1,8 @@
 var shiftDown = false;
 
-// Warsaw
-var lat = 52.23;
-var lon = 21.01;
+// var background = chrome.extension.getBackgroundPage();
+// let lon = 11.99;
+// let lat = 43.28;
 
 const phases = [
     { emoji: '🌚', code: ':new_moon_with_face:', name: 'New Moon', weight: 1 },
@@ -29,39 +29,6 @@ const step = function (phase) {
     }
 
     return rv
-}
-
-function setDate($) {
-    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-        months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'August', 'Sep', 'Oct', 'Nov', 'Dec'],
-        d = new Date(),
-        currentDate = days[d.getDay()] + ' | ' + d.getDate() + '&nbsp;' + months[d.getMonth()],
-        mins = (d.getMinutes() > 9) ? d.getMinutes() : '0' + d.getMinutes(),
-        currentTime = d.getHours() + ':' + mins,
-        previousTime = $('.timeArea .time .timeInner').html();
-    if (currentTime != previousTime) {
-        $('.timeArea .time .timeInner').html(currentTime);
-        $('.timeArea .time .date').html(currentDate);
-    }
-    let times = SunCalc.getTimes(new Date(), lat, lon);
-    // format sunrise time from the Date object
-    let sunriseStr = times.sunrise.getHours() + ':' + times.sunrise.getMinutes();
-    let sunsetStr = times.sunset.getHours() + ':' + times.sunset.getMinutes();
-    // console.log('Sunrise: ' + sunriseStr + ' Sunset: ' + sunsetStr );
-    $('#sunrise').text(sunriseStr);
-    $('#sunset').text(sunsetStr);
-    let moonphase = SunCalc.getMoonIllumination(new Date()).phase;
-    $('#moonphase').text(phases[step(moonphase)].emoji);
-
-    var toggle = true;
-    setInterval(function() {
-        var d = new Date().toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric' });
-        var parts = d.split(":");
-        $('#hours').text(parts[0]);
-        $('#minutes').text(parts[1]);
-        $("#colon").css({ visibility: toggle?"visible":"hidden"});
-        toggle=!toggle;
-    },1000)
 }
 
 function search(query, engine) {
@@ -111,23 +78,6 @@ function search(query, engine) {
 }
 
 $(function() {
-    setDate($);
-    let currentTime = new Date();
-    // get today's sunlight times for location
-    let times = SunCalc.getTimes(new Date(), lat, lon);
-    if (times.sunrise <= currentTime && currentTime < times.sunset) {
-        if (document.body) {
-            document.body.background = "css/background_day.jpg";
-            document.body.className = " day";
-        }
-
-    } else {
-        if (document.body) {
-            document.body.background = "css/background_night.jpg";
-            document.body.className = " night";
-        }
-    }
-
     document.body.className += ' fade-out';
     $(function () {
         $('body').removeClass('fade-out');

@@ -1,23 +1,26 @@
 {
+    "author": "chew-z",
     "manifest_version": 2,
     "name": "NewTab",
     "description": "Replace default new tab page in Chrome with a custom homepage.",
-    "version": "1.2.1",
+    "version": "1.3.9",
     "offline_enabled": true,
     "background": {
         "scripts": [
             "js/background.js"
-        ],
-        "persistent": false
+        ]
     },
     "browser_action": {
         "default_icon": "favicon.png",
         "default_title": "NewTab"
     },
+    "content_security_policy": "script-src 'self' https://api.openweathermap.org https://cdnjs.cloudflare.com;object-src 'self'",
     "chrome_url_overrides" : {
-        "newtab": "index.html"
+        "newtab": "html/index.html"
     },
-    "permissions": [
-    ],
-    "content_security_policy": "script-src 'self' https://api.openweathermap.org https://cdnjs.cloudflare.com;object-src 'self'"
+    "permissions": [ "storage" ],
+    "options_ui": {
+        "page": "html/options.html",
+        "open_in_tab": true
+    }
 }

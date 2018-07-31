@@ -1,0 +1,216 @@
+
+<!doctype html>
+<html lang="en">
+
+    <!--
+        Created by:
+        https://github.com/chew-z
+        based on https://github.com/seanvree/homepage
+        last updated: 31 JULY 2018
+
+    -->
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="theme-color" content="#464646" />
+        <meta name="theme_color" content="#464646" />
+
+        <title>NewTab</title>
+        <meta name="NewTab" content="NewTab">
+        <link rel="manifest" href="webmanifest.json">
+        <link rel="apple-touch-icon" href="/img/favicon.png">
+        <link rel="icon" type="image/png" href="/img/favicon.png">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <script src="/js/jquery.min.js"></script>
+        <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script -->
+        <script src="/js/weather.js" async ></script>
+        <script src="/js/suncalc.js" async></script>
+        <script src="/js/main.js" async></script>
+    </head>
+
+    <body style="background-color: #000000">
+        <div class="timeArea">
+            <p class="time">
+            <span id="hours"></span><span id="colon">:</span><span id="minutes"></span>
+            <span class="date"></span>
+            </p>
+            <p class="suncalc-sun">
+            Sunrise: <span id="sunrise"></span> Sunset: <span id="sunset"></span> <span id="moonphase"></span>
+            </p>
+        </div>
+
+        <div id="weather">
+            <div id="tempwrapper" class="tempwrapper" >
+                <div id="unit" class="unit">&degC</div>
+                <div id="temp" class="t-bottom t-sm" data-tooltip="Convert"></div>
+            </div>
+
+            <div id="iconwrapper" class="t-bottom t-sm" data-tooltip="Forecast">
+
+                <a id="weatherlink" href="#" target="_blank" rel="noopener"><h1 class="hidden">Weather</h1>
+
+                    <div class="icon unknown">
+                        <div class="text"></div>
+                    </div>
+
+                    <div class="icon sunny">
+                        <div class="sun">
+                            <div class="rays"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon clear-night">
+                        <div class="moon"></div>
+                        <div class="stars"></div>
+                    </div>
+
+                    <div class="icon sunny-cloudy">
+                        <div class="cloud"></div>
+                        <div class="sun">
+                            <div class="rays"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon moon-cloudy">
+                        <div class="cloud"></div>
+                        <div class="moon"></div>
+                    </div>
+
+                    <div class="icon overcast">
+                        <div class="cloud"></div>
+                    </div>
+
+                    <div class="icon moon-overcast">
+                        <div class="moon">
+                            <div class="cloud"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon drizzle">
+                        <div class="cloud"></div>
+                        <div class="sun">
+                            <div class="rays"></div>
+                        </div>
+                        <div class="rain"></div>
+                    </div>
+
+                    <div class="icon moon-drizzle">
+                        <div class="cloud"></div>
+                        <div class="moon"></div>
+                        <div class="rain"></div>
+                    </div>
+
+                    <div class="icon rainy">
+                        <div class="cloud"></div>
+                        <div class="rain"></div>
+                    </div>
+
+                    <div class="icon moon-rainy">
+                        <div class="moon">
+                            <div class="cloud"></div>
+                        </div>
+                        <div class="rain"></div>
+                    </div>
+
+                    <div class="icon thunderstorm">
+                        <div class="cloud"></div>
+                        <div class="lightning">
+                            <div class="bolt"></div>
+                            <div class="bolt"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon moon-thunderstorm">
+                        <div class="cloud"></div>
+                        <div class="moon"></div>
+
+                        <div class="lightning">
+                            <div class="bolt"></div>
+                            <div class="bolt"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon sun-snow">
+                        <div class="cloud"></div>
+                        <div class="snow">
+                            <div class="flake"></div>
+                            <div class="flake"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon moon-snow">
+                        <div class="moon">
+                            <div class="cloud"></div>
+                        </div>
+                        <div class="snow">
+                            <div class="flake"></div>
+                            <div class="flake"></div>
+                        </div>
+                    </div>
+
+                    <div class="icon foggy">
+                        <div class="cloud"></div>
+                        <div class="fog"></div>
+                    </div>
+
+                    <div class="icon foggy-night">
+                        <div class="cloud"></div>
+                        <div class="moon"></div>
+                        <div class="fog"></div>
+                    </div>
+
+                    <div class="icon windy">
+                        <div class="cloud"></div>
+                        <div class="cloud"></div>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="flexbox">
+
+            <form id="formstretch" action="#" method="post">
+
+                <label id="inputlabel" for="flexbox-input">
+
+                    <input type="search" id="flexbox-input" name="s" value="" placeholder="Search..." autocomplete="on" autofocus />
+
+                </label>
+
+                <label id="optionlabel" for="flexbox-option" class="t-top t-sm" data-tooltip="Select">
+
+                    <select id="flexbox-option">
+                        <option value="google">Google</option>
+                        <option value="bookmarks">Bookmarks</option>
+                        <option value="instapaper">Instapaper</option>
+                        <option value="hn">Hacker News</option>
+                        <option value="so">StackOverflow</option>
+                        <option value="github">GitHub</option>
+                        <option value="spotify">Spotify</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="imdb">IMDB</option>
+                    </select>
+
+                </label>
+
+            </form>
+
+        </div>
+
+        <div id="footer">
+            <p> This extension is based on<a href="https://github.com/seanvree/homepage"> homepage.</a></p>
+        </div>
+
+
+    </body>
+
+</html>
