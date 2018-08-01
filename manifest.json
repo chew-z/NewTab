@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "NewTab",
     "description": "Replace default new tab page in Chrome with a custom homepage.",
-    "version": "1.3.9",
+    "version": "1.4.2",
     "offline_enabled": true,
     "background": {
         "scripts": [
@@ -11,6 +11,7 @@
         ]
     },
     "browser_action": {
+        "default_popup": "html/popup.html",
         "default_icon": "favicon.png",
         "default_title": "NewTab"
     },
@@ -19,8 +20,10 @@
         "newtab": "html/index.html"
     },
     "permissions": [ "storage" ],
-    "options_ui": {
-        "page": "html/options.html",
-        "open_in_tab": true
+    "icons": {
+        "16": "img/16.png",
+        "32": "img/32.png",
+        "48": "img/48.png",
+        "128": "img/128.png"
     }
 }

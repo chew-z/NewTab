@@ -64,9 +64,9 @@ function restoreOptions() {
 // When clicked extension icon
 // chrome.browserAction.onClicked will not fire if the browser action has a popup
 // https://developer.chrome.com/extensions/browserAction#event-onClicked
-chrome.browserAction.onClicked.addListener( (activeTab) => {
-    chrome.tabs.create({'url': "/html/options.html" } )
-})
+// chrome.browserAction.onClicked.addListener( (activeTab) => {
+//     chrome.tabs.create({'url': "/html/options.html" } )
+// })
 
 chrome.storage.onChanged.addListener(doStorageChange);
 
