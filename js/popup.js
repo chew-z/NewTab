@@ -1,16 +1,11 @@
 // options.js
-// @flow
-// @flow-NotIssue
-"use strict"
 
+const background = chrome.extension.getBackgroundPage();
 
-var background = chrome.extension.getBackgroundPage();
-
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // units (F/C), city or lon/lat, forecast refresh freq, background image link
-    let weatherCity = document.getElementById("weatherCity");
-    let weatherCityForm = document.getElementById("weatherCityForm");
+    const weatherCity = document.getElementById("weatherCity");
+    const weatherCityForm = document.getElementById("weatherCityForm");
     weatherCity.value = background.weather_city;
     /*
     let latCity = document.getElementById("latCity");
@@ -22,16 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.sync.set({ "refresh_interval": refreshInterval.value } );
     });
     */
-    weatherCityForm.addEventListener("submit", () => {
-        console.log('Form submitted ' + weatherCity.value);
-        /* 
+    weatherCityForm.addEventListener(
+        "submit",
+        () => {
+            console.log(`Form submitted ${weatherCity.value}`);
+            /* 
         background.lat = latCity.value;
         background.lon = lonCity.value;
         chrome.storage.sync.set({ "lat": latCity.value } );
         chrome.storage.sync.set({ "lon": lonCity.value } );
         */
-        chrome.storage.sync.set({ "weather_city": weatherCity.value } );
-        background.weather_city = weatherCity.value;
-    }, false);
-
+            chrome.storage.sync.set({ weather_city: weatherCity.value });
+            background.weather_city = weatherCity.value;
+        },
+        false,
+    );
 });
