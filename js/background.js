@@ -55,6 +55,28 @@ function restoreOptions() {
 //     chrome.tabs.create({'url': "/html/options.html" } )
 // })
 
+chrome.runtime.onUpdateAvailable.addListener((details) => {
+    chrome.storage.sync.set({ lat: lat, lon: lon, weather_city: weather_city }, () => {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError);
+            chrome.runtime.reload();
+        } else {
+            console.log(`${new Date().toString()} variables saved `);
+            chrome.runtime.reload();
+        }
+    });
+});
+
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason == "install") {
+        console.log("This is first install!");
+    } else if (details.reason == "update") {
+        const thisVersion = chrome.runtime.getManifest().version;
+        restoreOptions();
+        console.log(`Updated from ${details.previousVersion} to ${thisVersion}!`);
+    }
+});
+
 chrome.storage.onChanged.addListener(doStorageChange);
 
 chrome.runtime.onMessage.addListener((message, sender) => {

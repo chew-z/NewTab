@@ -138,9 +138,7 @@ $(() => {
         console.log(`Coord: ${lat}/${lon}`);
         if (background.lat !== lat && background.lon !== lon) {
             // store in storage for future sessions
-            chrome.storage.sync.set({ lat });
-            chrome.storage.sync.set({ lon });
-            chrome.storage.sync.set({ weather_city: lastData.name });
+            chrome.storage.sync.set({ lat: lat, lon: lon, weather_city: lastData.name });
             // store in background for session
             background.weather_city = lastData.name;
             background.lat = lat;
