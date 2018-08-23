@@ -3,7 +3,7 @@
     "manifest_version": 2,
     "name": "NewTab",
     "description": "Replace default new tab page in Chrome with a custom homepage.",
-    "version": "1.5.7",
+    "version": "1.5.8",
     "offline_enabled": true,
     "background": {
         "scripts": [
