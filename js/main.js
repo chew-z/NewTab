@@ -1,6 +1,4 @@
 let shiftDown = false;
-// let lon = 11.99;
-// let lat = 43.28;
 
 function search(query, engine) {
     let url = ``;

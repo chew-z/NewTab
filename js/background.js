@@ -1,6 +1,6 @@
-let lon = 11.99;
-let lat = 43.28;
-let weather_city = "Cortona"; //
+let lon = 20.93;
+let lat = 52.40;
+let weather_city = "Legionowo"; //
 
 const openLocalFile = (localFileUrl, baseTab) => {
     chrome.tabs.create({

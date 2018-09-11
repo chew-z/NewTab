@@ -481,12 +481,11 @@ th {
 }
 
 .day {
-
-    color: rgba(100, 100, 100, 0.75);
+    color: rgba(76, 160, 239, 0.47);
 }
 
 .night {
-    color: rgba(00, 64, 133, 0.75);
+    color: rgba(76, 160, 239, 0.97);
 }
 
 .timeArea .time {

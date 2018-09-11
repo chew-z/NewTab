@@ -118,7 +118,7 @@ $(() => {
     // Warsaw
     // let lat = 52.23;
     // let lon = 21.01;
-    let weather_city = "Cortona";
+    let weather_city = "Legionowo";
     weather_city = background.weather_city;
     const $city = $("#city");
 
